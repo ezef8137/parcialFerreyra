@@ -2,30 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { EmpleadoService } from 'src/app/services/empleado.service';
+import { LibroService } from 'src/app/services/libro.service';
 
 @Component({
-  selector: 'app-list-empleados',
-  templateUrl: './list-empleados.component.html',
-  styleUrls: ['./list-empleados.component.css']
+  selector: 'app-list',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.css']
 })
-export class ListEmpleadosComponent implements OnInit {
-  empleados: any[] = [];
+export class ListComponent implements OnInit {
+
+  libros: any[] = [];
 
   constructor(
-    private _empleadoService: EmpleadoService,
+    private _libroService: LibroService,
     private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.getEmpleados()
+    this.getLibrosTablaMostrar()
   }
 
-  getEmpleados() {
-    this._empleadoService.getEmpleados().subscribe(data => {
-      this.empleados = [];
+  getLibrosTablaMostrar() {
+    this._libroService.getLibrosTabla().subscribe(data => {
+      this.libros = [];
       data.forEach((element: any) => {
-        this.empleados.push({
+        this.libros.push({
           id: element.payload.doc.id,
           ...element.payload.doc.data()
         })
@@ -33,8 +34,8 @@ export class ListEmpleadosComponent implements OnInit {
     });
   }
 
-  eliminarEmpleado(id: string) {
-    this._empleadoService.eliminarEmpleado(id).then(() => {
+  deleteLibroTabla(id: string) {
+    this._libroService.deleteLibro(id).then(() => {
       this.toastr.error('El empleado fue eliminado con exito', 'Registro eliminado!', {
         positionClass: 'toast-bottom-right'
       });
@@ -42,3 +43,4 @@ export class ListEmpleadosComponent implements OnInit {
   }
 
 }
+

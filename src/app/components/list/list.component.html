@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <div class="card">
+      <div class="card-body">
+          <span class="h3">Listado de Libros</span>
+            <button class="btn btn-dark btn-lg float-right" routerLink="/createObjets">Agregar</button>
+          <h5 style="margin-top: 30px;" *ngIf="libros.length == 0">No hay datos para mostrar</h5>
+          <table *ngIf="libros.length > 0" class="table table-striped mt-5">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Autor</th>
+                  <th>Edicion</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let libro of libros">
+                  <td>{{ libro.nombre }}</td>
+                  <td>{{ libro.autor }}</td>
+                  <td>{{ libro.edicion }}</td>
+                  <td>
+                    <i class="fas fa-edit fa-lg text-info mr-2" [routerLink]="['/editObjets/', libro.id]"></i>
+                    <i (click)="deleteLibroTabla(libro.id)" class="fas fa-trash-alt fa-lg text-danger"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+      </div>
+  </div>
+</div>
+
+
