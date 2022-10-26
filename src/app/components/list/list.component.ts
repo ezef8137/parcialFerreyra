@@ -11,22 +11,22 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 })
 export class ListComponent implements OnInit {
 
-  numeros: any[] = [];
+  personal: any[] = [];
 
   constructor(
-    private _libroService: FirestoreService,
+    private _personalService: FirestoreService,
     private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.getLibrosTablaMostrar()
+    this.getPersonalTablaMostrar()
   }
 
-  getLibrosTablaMostrar() {
-    this._libroService.getLibrosTabla().subscribe(data => {
-      this.numeros = [];
+  getPersonalTablaMostrar() {
+    this._personalService.getPersonalTabla().subscribe(data => {
+      this.personal = [];
       data.forEach((element: any) => {
-        this.numeros.push({
+        this.personal.push({
           id: element.payload.doc.id,
           ...element.payload.doc.data()
         })
@@ -34,9 +34,9 @@ export class ListComponent implements OnInit {
     });
   }
 
-  deleteLibroTabla(id: string) {
-    this._libroService.deleteLibro(id).then(() => {
-      this.toastr.error('El número fue eliminado con exito', 'Número eliminado!', {
+  deletePersonalTabla(id: string) {
+    this._personalService.deletePerso(id).then(() => {
+      this.toastr.error('El personal fue eliminado con exito', 'Personal eliminado!', {
         positionClass: 'toast-bottom-right'
       });
     }).catch(() => {})

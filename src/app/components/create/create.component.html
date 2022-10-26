@@ -1,6 +1,6 @@
 <div class="container pt-4">
   <div class="row">
-      <div class="col-lg-6 offset-lg-3">
+      <div class="col-lg-6 offset-lg-1">
           <div class="card text-center">
               <div class="card-body">
                   <h3>{{ titulo }}
@@ -8,18 +8,84 @@
                           <span class="sr-only">Loading...</span>
                         </div>
                   </h3>
-                  <span *ngIf="submitted && numeroIngresado.invalid" class="badge badge-danger">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
-                  <form class="mt-4" [formGroup]="numeroIngresado" (ngSubmit)="agregarObjeto()">
+                  <form class="mt-4" [formGroup]="personal" (ngSubmit)="agregarEditarPersonal()">
                       <div class="row">
                           <div class="col">
-                              <input type="number" class="form-control form-control-lg" formControlName="numero"
-                                  placeholder="numero">
+                              <input type="text" class="form-control form-control-lg" formControlName="fecha"
+                                  placeholder="fecha">
                           </div>
-                      </div>
+                          <div class="col">
+                            <input type="text" class="form-control form-control-lg" formControlName="hora"
+                                placeholder="hora">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control form-control-lg" formControlName="nombreyapellido"
+                                placeholder="nombre y apellido">
+                        </div>
+                          
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                        <input type="text" class="form-control form-control-lg mt-3" formControlName="temperatura"
+                            placeholder="temperatura">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="tos"
+                                    placeholder="tos">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="insuficiencia"
+                                    placeholder="insuficencia cardiaca">
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="dolorgarganta"
+                                    placeholder="Dolor de garganta">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="perdidaolfato"
+                                    placeholder="Perdida Olfato">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="perdidagusto"
+                                    placeholder="Perdida Gusto">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="otros"
+                                    placeholder="otros">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="contactoviaje"
+                                    placeholder="Contacto Viaje">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg mt-3" formControlName="lugar"
+                                    placeholder="lugar">
+                            </div>
+                            
+
+
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control form-control-lg mt-3" formControlName="observaciones"
+                                placeholder="Observaciones">
+                          </div>
+                        
+                    
+                    
+                    
+                    
+                    
+                    
                       <div class="mt-3">
                         <button type="text" class="btn btn-secondary btn-lg mr-3"
                               routerLink="/list-objets">Volver</button>
-                          <button type="submit" class="btn btn-dark btn-lg">Agregar</button>
+                          <button type="submit" class="button">Agregar</button>
 
                       </div>
                   </form>

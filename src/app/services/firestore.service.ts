@@ -9,24 +9,24 @@ export class FirestoreService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  addLibro(libro: any): Promise<any> {
-    return this.firestore.collection('numeros').add(libro);
+  agregarPersonal(libro: any): Promise<any> {
+    return this.firestore.collection('personal').add(libro);
   }
 
-  getLibrosTabla(): Observable<any> {
-    return this.firestore.collection('numeros').snapshotChanges();
+  getPersonalTabla(): Observable<any> {
+    return this.firestore.collection('personal').snapshotChanges();
   }
 
-  deleteLibro(id: string): Promise<any> {
-    return this.firestore.collection('numeros').doc(id).delete();
+  deletePerso(id: string): Promise<any> {
+    return this.firestore.collection('personal').doc(id).delete();
   }
 
-  getLibro(id: string): Observable<any> {
-    return this.firestore.collection('numeros').doc(id).snapshotChanges();
+  getPersonal(id: string): Observable<any> {
+    return this.firestore.collection('personal').doc(id).snapshotChanges();
   }
 
-  updateLibro(id: string, data:any): Promise<any> {
-    return this.firestore.collection('numeros').doc(id).update(data);
+  updatePersonal(id: string, data:any): Promise<any> {
+    return this.firestore.collection('personal').doc(id).update(data);
   }
 
 }
