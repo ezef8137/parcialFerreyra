@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LibroService } from 'src/app/services/libro.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { numeroPrimo } from 'src/app/models/numeroPrimo';
 
 @Component({
   selector: 'app-create',
@@ -11,92 +12,97 @@ import { LibroService } from 'src/app/services/libro.service';
 })
 export class CreateComponent implements OnInit {
 
-  createLibro: FormGroup;
+  numeroIngresado: FormGroup;
   submitted = false;
   loading = false;
   id: string | null;
-  titulo = 'Crear Libro';
+  titulo = 'Ingresar Número';
+  primo: boolean | undefined;
+  motivo: string | undefined
 
   constructor(private fb: FormBuilder,
-    private _libroService: LibroService,
+    private _numeroService: FirestoreService,
     private router: Router,
     private toastr: ToastrService,
     private aRoute: ActivatedRoute) {
-    this.createLibro = this.fb.group({
-      nombre: ['', Validators.required],
-      autor: ['', Validators.required],
-      edicion: ['', Validators.required]
+    this.numeroIngresado = this.fb.group({
+      numero: ['', Validators.required]
     })
     this.id = this.aRoute.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    this.editarLibroVentana();
+    this.editarObjVentana();
   }
 
-  agregarEditarLibro() {
-    this.submitted = true;
+  agregarObjeto() {
+    this.verificarNumeroPrimo(this.numeroIngresado.value.numero);
+  }
 
-    if (this.createLibro.invalid) {
-      return;
+  verificarNumeroPrimo(numero: number) {
+    let cantDivisor=0
+    let numerosDivisores=[]
+    let divisor = 0
+    let resto = 0
+    for(let i=0; i<numero; i++){
+        divisor =numero - i
+        resto = (numero % divisor)
+        if (resto===0){
+            cantDivisor=cantDivisor+1
+            numerosDivisores.push(divisor)
+        }
+    }
+    if (cantDivisor<=2){
+        this.primo = true;
+        this.motivo = 'es divisible por 1 y por si mismo'
+    }
+    else{
+        this.primo = false;
+        this.motivo = `porque es divisible por: ${numerosDivisores} `
+    }
+    const numeroo: numeroPrimo = {
+      numero: this.numeroIngresado.value.numero,
+      primo: this.primo,
+      motivo:  this.motivo,
     }
 
     if (this.id === null) {
-      this.agregarLibro();
+      this._numeroService.addLibro(numeroo).then(()=> {
+        this.toastr.success('se agrego el numero', 'numero agregado');
+        this.router.navigate(["/list-objets"]);
+      }, error => {
+        console.log(error)
+      })
     } else {
-      this.editarLibroFirestore(this.id);
+      this.editarObjFirestore(this.id);
     }
-
   }
 
-  agregarLibro() {
-    const libro: any = {
-      nombre: this.createLibro.value.nombre,
-      autor: this.createLibro.value.autor,
-      edicion: this.createLibro.value.edicion,
-      fechaCreacion: new Date(),
-      fechaActualizacion: new Date()
+  editarObjFirestore(id: string) {
+    const numNuevo: any = {
+      numero: this.numeroIngresado.value.numero,
+      primo: this.primo,
+      motivo: this.motivo,
     }
+    console.log(numNuevo)
     this.loading = true;
-    this._libroService.addLibro(libro).then(() => {
-      this.toastr.success('El empleado fue registrado con exito!', 'Empleado Registrado', {
-        positionClass: 'toast-bottom-right'
-      });
+    this._numeroService.updateLibro(id, numNuevo).then(() => {
       this.loading = false;
-      this.router.navigate(['/listObjets']);
-    }).catch(error => {
-      this.loading = false;
-    })
-  }
-
-  editarLibroFirestore(id: string) {
-    const libro: any = {
-      nombre: this.createLibro.value.nombre,
-      autor: this.createLibro.value.autor,
-      edicion: this.createLibro.value.edicion,
-      fechaActualizacion: new Date()
-    }
-
-    this.loading = true;
-    this._libroService.updateLibro(id, libro).then(() => {
-      this.loading = false;
-      this.toastr.info('El empleado fue modificado con exito', 'Empleado modificado', {
+      this.toastr.info('El número fue modificado con exito', 'Número modificado', {
         positionClass: 'toast-bottom-right'
       })
-      this.router.navigate(['/listObjets']);
+      this.router.navigate(['/list-objets']);
     })
   }
 
-  editarLibroVentana() {
+  editarObjVentana() {
     if (this.id !== null) {
-      this.titulo = 'Editar Empleado'
+      this.titulo = 'Editar Numero'
       this.loading = true;
-      this._libroService.getLibro(this.id).subscribe(data => {
+      this._numeroService.getLibro(this.id).subscribe(data => {
         this.loading = false;
-        this.createLibro.setValue({
-          nombre: data.payload.data()['nombre'],
-          autor: data.payload.data()['autor'],
-          edicion: data.payload.data()['edicion']
+        this.numeroIngresado.setValue({
+          numero: data.payload.data()['numero']
         })})}}
 }
 

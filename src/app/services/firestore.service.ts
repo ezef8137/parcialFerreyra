@@ -5,28 +5,28 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class LibroService {
+export class FirestoreService {
 
   constructor(private firestore: AngularFirestore) { }
 
   addLibro(libro: any): Promise<any> {
-    return this.firestore.collection('libros').add(libro);
+    return this.firestore.collection('numeros').add(libro);
   }
 
   getLibrosTabla(): Observable<any> {
-    return this.firestore.collection('libros', ref => ref.orderBy('fechaCreacion', 'asc')).snapshotChanges();
+    return this.firestore.collection('numeros').snapshotChanges();
   }
 
   deleteLibro(id: string): Promise<any> {
-    return this.firestore.collection('libros').doc(id).delete();
+    return this.firestore.collection('numeros').doc(id).delete();
   }
 
   getLibro(id: string): Observable<any> {
-    return this.firestore.collection('libros').doc(id).snapshotChanges();
+    return this.firestore.collection('numeros').doc(id).snapshotChanges();
   }
 
   updateLibro(id: string, data:any): Promise<any> {
-    return this.firestore.collection('libros').doc(id).update(data);
+    return this.firestore.collection('numeros').doc(id).update(data);
   }
 
 }

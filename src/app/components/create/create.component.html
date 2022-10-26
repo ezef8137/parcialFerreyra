@@ -8,23 +8,17 @@
                           <span class="sr-only">Loading...</span>
                         </div>
                   </h3>
-                  <span *ngIf="submitted && createLibro.invalid" class="badge badge-danger">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
-                  <form class="mt-4" [formGroup]="createLibro" (ngSubmit)="agregarEditarLibro()">
+                  <span *ngIf="submitted && numeroIngresado.invalid" class="badge badge-danger">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
+                  <form class="mt-4" [formGroup]="numeroIngresado" (ngSubmit)="agregarObjeto()">
                       <div class="row">
                           <div class="col">
-                              <input type="text" class="form-control form-control-lg" formControlName="nombre"
-                                  placeholder="Nombre">
-                          </div>
-                          <div class="col">
-                              <input type="text" class="form-control form-control-lg" formControlName="autor"
-                                  placeholder="Autor">
+                              <input type="number" class="form-control form-control-lg" formControlName="numero"
+                                  placeholder="numero">
                           </div>
                       </div>
-                      <input type="text" class="form-control form-control-lg mt-3" formControlName="edicion"
-                          placeholder="Edición">
                       <div class="mt-3">
                         <button type="text" class="btn btn-secondary btn-lg mr-3"
-                              routerLink="/listObjets">Volver</button>
+                              routerLink="/list-objets">Volver</button>
                           <button type="submit" class="btn btn-dark btn-lg">Agregar</button>
 
                       </div>

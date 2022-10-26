@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { LibroService } from 'src/app/services/libro.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
 
 @Component({
   selector: 'app-list',
@@ -11,10 +11,10 @@ import { LibroService } from 'src/app/services/libro.service';
 })
 export class ListComponent implements OnInit {
 
-  libros: any[] = [];
+  numeros: any[] = [];
 
   constructor(
-    private _libroService: LibroService,
+    private _libroService: FirestoreService,
     private toastr: ToastrService) {
   }
 
@@ -24,9 +24,9 @@ export class ListComponent implements OnInit {
 
   getLibrosTablaMostrar() {
     this._libroService.getLibrosTabla().subscribe(data => {
-      this.libros = [];
+      this.numeros = [];
       data.forEach((element: any) => {
-        this.libros.push({
+        this.numeros.push({
           id: element.payload.doc.id,
           ...element.payload.doc.data()
         })
@@ -36,7 +36,7 @@ export class ListComponent implements OnInit {
 
   deleteLibroTabla(id: string) {
     this._libroService.deleteLibro(id).then(() => {
-      this.toastr.error('El empleado fue eliminado con exito', 'Registro eliminado!', {
+      this.toastr.error('El número fue eliminado con exito', 'Número eliminado!', {
         positionClass: 'toast-bottom-right'
       });
     }).catch(() => {})

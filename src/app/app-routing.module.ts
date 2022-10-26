@@ -4,11 +4,11 @@ import { CreateComponent } from './components/create/create.component';
 import { ListComponent } from './components/list/list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'listObjets', pathMatch: 'full' },
-  { path: 'listObjets', component: ListComponent },
-  { path: 'createObjets', component: CreateComponent },
-  { path: 'editObjets/:id', component: CreateComponent },
-  { path: '**', redirectTo: 'listObjets', pathMatch: 'full' },
+  { path: '', redirectTo: 'list-objets', pathMatch: 'full' },
+  { path: 'list-objets', component: ListComponent },
+  { path: 'create-objets', component: CreateComponent },
+  { path: 'edit-objets/:id', component: CreateComponent },
+  { path: '**', redirectTo: 'list-objets', pathMatch: 'full' },
 ];
 
 @NgModule({
